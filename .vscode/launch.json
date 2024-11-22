@@ -1,0 +1,22 @@
+{
+  "configurations": [
+    {
+      "type": "lldb",
+      "request": "launch",
+      "args": [],
+      "cwd": "${workspaceFolder:CarParkEscape}",
+      "name": "Debug CarParkEscape",
+      "program": "${workspaceFolder:CarParkEscape}/.build/debug/CarParkEscape",
+      "preLaunchTask": "swift: Build Debug CarParkEscape"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "args": [],
+      "cwd": "${workspaceFolder:CarParkEscape}",
+      "name": "Release CarParkEscape",
+      "program": "${workspaceFolder:CarParkEscape}/.build/release/CarParkEscape",
+      "preLaunchTask": "swift: Build Release CarParkEscape"
+    }
+  ]
+}
