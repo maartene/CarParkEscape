@@ -41,3 +41,7 @@ How did this feel?
 - Way of programming that feels: I don't want to make this my carreer
 - Mental model in your head needs to be way too big
 - Lack of a _shared_ mental model between driver and navigator
+
+## Pomodoro 2: And now we do it the right way
+- ✅ park right next to the exit
+- ⚠️ park on the same floor, a bit away from the exit
