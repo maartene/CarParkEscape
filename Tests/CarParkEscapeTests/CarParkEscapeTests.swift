@@ -6,7 +6,8 @@ import Testing
 }
 
 func escape(_ carpark: [[Int]]) -> [String] {
-    return ["R1"]
+    let steps = carpark[0].count - 1
+    return ["R\(steps)"]
 }
 
 @Suite("escape should") struct CarParkEscapeTests {
@@ -16,6 +17,16 @@ func escape(_ carpark: [[Int]]) -> [String] {
         ]
 
         let expectedPath = ["R1"]
+
+        #expect(escape(carPark) == expectedPath)
+    }
+
+    @Test("return R4 when parking four spots away, on the same floor as the exit") func onTheSameFloorAsExit_coupleOfSpotsAway() {
+        let carPark = [
+            [2, 0, 0, 0, 0]
+        ]
+
+        let expectedPath = ["R4"]
 
         #expect(escape(carPark) == expectedPath)
     }
