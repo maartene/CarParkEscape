@@ -3,17 +3,22 @@ import Testing
 
 func escape(_ carpark: [[Int]]) -> [String] {
     var result = [String]()
-
-    let startingFloor = Array(carpark.reversed()).firstIndex { floor in 
+    let startingFloor = carpark.firstIndex { floor in 
         floor.contains(2)
     }!
 
-    if startingFloor > 0 {
+    var position = carpark[startingFloor].firstIndex(of: 2)!
+
+    let exitFloor = carpark.count - 1
+    
+    var currentFloor = startingFloor
+    if startingFloor < exitFloor {
         result.append(contentsOf: ["L1", "D1"])
+        position -= 1
+        currentFloor += 1
     }
 
-    let position = carpark[0].firstIndex(of: 2)!
-    let steps = carpark[0].count - position - 1
+    let steps = carpark[currentFloor].count - position - 1
     
     result.append("R\(steps)")
 
@@ -57,7 +62,7 @@ func escape(_ carpark: [[Int]]) -> [String] {
             [0, 0, 0, 0, 0]
         ]
 
-        let expectedPath = ["L1", "D1", "R2"]
+        let expectedPath = ["L1", "D1", "R3"]
 
         #expect(escape(carPark) == expectedPath)
     }

@@ -47,3 +47,4 @@ How did this feel?
 - ✅ park on the same floor (all the way to the left), a bit away from the exit
 - ✅ park on the same floor (in the middle), a bit away from the exit
 - ✅ park on a second floor right next to the stairs
+- Fixed ❌ in test where parking on second floor, right next to stairs should return R3.
