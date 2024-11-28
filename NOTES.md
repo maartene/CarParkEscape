@@ -45,4 +45,5 @@ How did this feel?
 ## Pomodoro 2: And now we do it the right way
 - ✅ park right next to the exit
 - ✅ park on the same floor (all the way to the left), a bit away from the exit
-- ⚠️ park on the same floor (in the middle), a bit away from the exit
+- ✅ park on the same floor (in the middle), a bit away from the exit
+- ✅ park on a second floor right next to the stairs

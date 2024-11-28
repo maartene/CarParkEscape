@@ -1,14 +1,23 @@
 import Testing
 @testable import CarParkEscape
 
-@Test func example() async throws {
-    // Write your test here and use APIs like `#expect(...)` to check expected conditions.
-}
-
 func escape(_ carpark: [[Int]]) -> [String] {
+    var result = [String]()
+
+    let startingFloor = Array(carpark.reversed()).firstIndex { floor in 
+        floor.contains(2)
+    }!
+
+    if startingFloor > 0 {
+        result.append(contentsOf: ["L1", "D1"])
+    }
+
     let position = carpark[0].firstIndex(of: 2)!
     let steps = carpark[0].count - position - 1
-    return ["R\(steps)"]
+    
+    result.append("R\(steps)")
+
+    return result
 }
 
 @Suite("escape should") struct CarParkEscapeTests {
@@ -38,6 +47,17 @@ func escape(_ carpark: [[Int]]) -> [String] {
         ]
 
         let expectedPath = ["R2"]
+
+        #expect(escape(carPark) == expectedPath)
+    }
+
+    @Test("return [L1, D1, R2] when parking right next to the stairs on the second floor") func rightNextToStairsOnSecondFloor() {
+        let carPark = [
+            [0, 1, 2, 0, 0],
+            [0, 0, 0, 0, 0]
+        ]
+
+        let expectedPath = ["L1", "D1", "R2"]
 
         #expect(escape(carPark) == expectedPath)
     }
