@@ -6,7 +6,8 @@ import Testing
 }
 
 func escape(_ carpark: [[Int]]) -> [String] {
-    let steps = carpark[0].count - 1
+    let position = carpark[0].firstIndex(of: 2)!
+    let steps = carpark[0].count - position - 1
     return ["R\(steps)"]
 }
 
@@ -21,12 +22,22 @@ func escape(_ carpark: [[Int]]) -> [String] {
         #expect(escape(carPark) == expectedPath)
     }
 
-    @Test("return R4 when parking four spots away, on the same floor as the exit") func onTheSameFloorAsExit_coupleOfSpotsAway() {
+    @Test("return R4 when parking four spots away (all the way to the left), on the same floor as the exit") func onTheSameFloorAsExit_coupleOfSpotsAway_allTheWayToTheLeft() {
         let carPark = [
             [2, 0, 0, 0, 0]
         ]
 
         let expectedPath = ["R4"]
+
+        #expect(escape(carPark) == expectedPath)
+    }
+
+    @Test("return R2 when parking in the middle of the floor of the exit") func onTheSameFloorAsExit_coupleOfSpotsAway_inTheMiddle() {
+        let carPark = [
+            [0, 0, 2, 0, 0]
+        ]
+
+        let expectedPath = ["R2"]
 
         #expect(escape(carPark) == expectedPath)
     }
