@@ -15,10 +15,11 @@ func escape(_ carpark: [[Int]]) -> [String] {
     if startingFloor < exitFloor {
         let stairsPosition = carpark[currentFloor].firstIndex(of: 1)!
         
-        let steps = abs(stairsPosition - position)
+        let steps = stairsPosition - position
+        let direction = stairsPosition > position ? "R" : "L"
         
-        result.append(contentsOf: ["L\(steps)", "D1"])
-        position -= steps
+        result.append(contentsOf: ["\(direction)\(abs(steps))", "D1"])
+        position += steps
         currentFloor += 1
     }
 
@@ -60,7 +61,7 @@ func escape(_ carpark: [[Int]]) -> [String] {
         #expect(escape(carPark) == expectedPath)
     }
 
-    @Test("return [L1, D1, R2] when parking right next to the stairs on the second floor") func rightNextToStairsOnSecondFloor() {
+    @Test("return [L1, D1, R3] when parking right next to the stairs on the second floor") func rightNextToStairsOnSecondFloor() {
         let carPark = [
             [0, 1, 2, 0, 0],
             [0, 0, 0, 0, 0]
@@ -71,13 +72,24 @@ func escape(_ carpark: [[Int]]) -> [String] {
         #expect(escape(carPark) == expectedPath)
     }
     
-    @Test("return [L2, D1, R2] when parking further right to the stairs on the second floor") func furtherRightToStairsOnSecondFloor() {
+    @Test("return [L2, D1, R3] when parking further right to the stairs on the second floor") func furtherRightToStairsOnSecondFloor() {
         let carPark = [
             [0, 1, 0, 2, 0],
             [0, 0, 0, 0, 0]
         ]
 
         let expectedPath = ["L2", "D1", "R3"]
+
+        #expect(escape(carPark) == expectedPath)
+    }
+    
+    @Test("return [R2, D1, R3] when parking further left of the stairs on the second floor") func furtherLeftToStairsOnSecondFloor() {
+        let carPark = [
+            [2, 0, 1, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0]
+        ]
+
+        let expectedPath = ["R2", "D1", "R3"]
 
         #expect(escape(carPark) == expectedPath)
     }
