@@ -48,3 +48,6 @@ How did this feel?
 - ✅ park on the same floor (in the middle), a bit away from the exit
 - ✅ park on a second floor right next to the stairs
 - Fixed ❌ in test where parking on second floor, right next to stairs should return R3.
+
+## Pomodoro 3: Continue with going left
+- ⚠️ Need to move left two steps to reach the stairs

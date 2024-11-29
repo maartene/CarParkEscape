@@ -13,8 +13,12 @@ func escape(_ carpark: [[Int]]) -> [String] {
     
     var currentFloor = startingFloor
     if startingFloor < exitFloor {
-        result.append(contentsOf: ["L1", "D1"])
-        position -= 1
+        let stairsPosition = carpark[currentFloor].firstIndex(of: 1)!
+        
+        let steps = abs(stairsPosition - position)
+        
+        result.append(contentsOf: ["L\(steps)", "D1"])
+        position -= steps
         currentFloor += 1
     }
 
@@ -66,8 +70,20 @@ func escape(_ carpark: [[Int]]) -> [String] {
 
         #expect(escape(carPark) == expectedPath)
     }
+    
+    @Test("return [L2, D1, R2] when parking further right to the stairs on the second floor") func furtherRightToStairsOnSecondFloor() {
+        let carPark = [
+            [0, 1, 0, 2, 0],
+            [0, 0, 0, 0, 0]
+        ]
+
+        let expectedPath = ["L2", "D1", "R3"]
+
+        #expect(escape(carPark) == expectedPath)
+    }
 }
 
+// Codewars examples
 // @Test("A simple 2 story carpark returns the correct path") func twoStoryCarParkExample() {
 //     let carPark = [
 //         [1, 0, 0, 0, 2],
