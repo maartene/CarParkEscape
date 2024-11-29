@@ -2,6 +2,15 @@ import Testing
 @testable import CarParkEscape
 
 func escape(_ carpark: [[Int]]) -> [String] {
+    func movementInstruction(floor: [Int], position: Int) -> (steps: Int, instruction: String) {
+        let targetPosition = floor.firstIndex(of: 1) ?? floor.count - 1
+        
+        let steps = targetPosition - position
+        let direction = targetPosition > position ? "R" : "L"
+        
+        return (steps, "\(direction)\(abs(steps))")
+    }
+    
     var result = [String]()
     let startingFloor = carpark.firstIndex { floor in 
         floor.contains(2)
@@ -13,19 +22,16 @@ func escape(_ carpark: [[Int]]) -> [String] {
     
     var currentFloor = startingFloor
     if startingFloor < exitFloor {
-        let stairsPosition = carpark[currentFloor].firstIndex(of: 1)!
+        let movementInstruction = movementInstruction(floor: carpark[currentFloor], position: position)
         
-        let steps = stairsPosition - position
-        let direction = stairsPosition > position ? "R" : "L"
-        
-        result.append(contentsOf: ["\(direction)\(abs(steps))", "D1"])
-        position += steps
+        result.append(contentsOf: [movementInstruction.instruction, "D1"])
+        position += movementInstruction.steps
         currentFloor += 1
     }
-
-    let steps = carpark[currentFloor].count - position - 1
     
-    result.append("R\(steps)")
+    let movementInstruction = movementInstruction(floor: carpark[currentFloor], position: position)
+    
+    result.append(movementInstruction.instruction)
 
     return result
 }

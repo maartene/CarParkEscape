@@ -52,3 +52,6 @@ How did this feel?
 ## Pomodoro 3: Continue with going left
 - ✅ Need to move left two steps to reach the stairs
 - ✅ Refactored tests to be parameterized
+- ✅ Extract movement instruction from `escape` function
+- ⚠️ Three store garages
+- ⚠️ Going down more than once
