@@ -31,68 +31,31 @@ func escape(_ carpark: [[Int]]) -> [String] {
 }
 
 @Suite("escape should") struct CarParkEscapeTests {
-    @Test("return R1 when parking right next to the exit") func nextToExit() {
-        let carPark = [
-            [2, 0]
-        ]
-
-        let expectedPath = ["R1"]
-
-        #expect(escape(carPark) == expectedPath)
+    @Test("return the expected escape path for a specific single floor parking garage and parking spot", arguments: [
+        ([[2, 0]], ["R1"]),
+        ([[2, 0, 0, 0, 0]], ["R4"]),
+        ([[0, 0, 2, 0, 0]], ["R2"])
+    ]) func escapePathsForSpecificSingleFloorCarParkAndParkingSpot(testcase: (carpark: [[Int]], expectedPath: [String])) {
+        #expect(escape(testcase.carpark) == testcase.expectedPath)
     }
-
-    @Test("return R4 when parking four spots away (all the way to the left), on the same floor as the exit") func onTheSameFloorAsExit_coupleOfSpotsAway_allTheWayToTheLeft() {
-        let carPark = [
-            [2, 0, 0, 0, 0]
-        ]
-
-        let expectedPath = ["R4"]
-
-        #expect(escape(carPark) == expectedPath)
-    }
-
-    @Test("return R2 when parking in the middle of the floor of the exit") func onTheSameFloorAsExit_coupleOfSpotsAway_inTheMiddle() {
-        let carPark = [
-            [0, 0, 2, 0, 0]
-        ]
-
-        let expectedPath = ["R2"]
-
-        #expect(escape(carPark) == expectedPath)
-    }
-
-    @Test("return [L1, D1, R3] when parking right next to the stairs on the second floor") func rightNextToStairsOnSecondFloor() {
-        let carPark = [
+    
+    @Test("return the expected escape path for two stoor parking garages and parking spots", arguments: [
+        ([
             [0, 1, 2, 0, 0],
             [0, 0, 0, 0, 0]
-        ]
-
-        let expectedPath = ["L1", "D1", "R3"]
-
-        #expect(escape(carPark) == expectedPath)
-    }
-    
-    @Test("return [L2, D1, R3] when parking further right to the stairs on the second floor") func furtherRightToStairsOnSecondFloor() {
-        let carPark = [
+        ], ["L1", "D1", "R3"]),
+        ([
             [0, 1, 0, 2, 0],
             [0, 0, 0, 0, 0]
-        ]
-
-        let expectedPath = ["L2", "D1", "R3"]
-
-        #expect(escape(carPark) == expectedPath)
-    }
-    
-    @Test("return [R2, D1, R3] when parking further left of the stairs on the second floor") func furtherLeftToStairsOnSecondFloor() {
-        let carPark = [
+        ], ["L2", "D1", "R3"]),
+        ([
             [2, 0, 1, 0, 0, 0],
             [0, 0, 0, 0, 0, 0]
-        ]
-
-        let expectedPath = ["R2", "D1", "R3"]
-
-        #expect(escape(carPark) == expectedPath)
+        ], ["R2", "D1", "R3"])
+    ]) func escapePathsForSpecificTwoFloorCarParkAndParkingSpot(testcase: (carpark: [[Int]], expectedPath: [String])) {
+        #expect(escape(testcase.carpark) == testcase.expectedPath)
     }
+    
 }
 
 // Codewars examples

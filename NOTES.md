@@ -50,4 +50,5 @@ How did this feel?
 - Fixed ❌ in test where parking on second floor, right next to stairs should return R3.
 
 ## Pomodoro 3: Continue with going left
-- ⚠️ Need to move left two steps to reach the stairs
+- ✅ Need to move left two steps to reach the stairs
+- ✅ Refactored tests to be parameterized
