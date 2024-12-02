@@ -56,4 +56,5 @@ How did this feel?
 
 ## Pomodoro 4: Three store garages
 - ✅ Three store garages
+- 🚧 Refactor going down a stairs to also be an instruction
 - ⚠️ Going down more than once

@@ -2,13 +2,20 @@ import Testing
 @testable import CarParkEscape
 
 func escape(_ carpark: [[Int]]) -> [String] {
-    func movementInstruction(floor: [Int], position: Int) -> (steps: Int, instruction: String) {
+    func movementInstruction(floor: [Int], position: Int) -> (steps: Int, direction: String) {
         let targetPosition = floor.firstIndex(of: 1) ?? floor.count - 1
         
-        let steps = targetPosition - position
-        let direction = targetPosition > position ? "R" : "L"
+        var steps = abs(targetPosition - position)
+        var direction = ""
         
-        return (steps, "\(direction)\(abs(steps))")
+        if steps == 0 {
+            direction = "D"
+            steps = 1
+        } else {
+            direction = targetPosition > position ? "R" : "L"
+        }
+                
+        return (steps, direction)
     }
     
     var result = [String]()
@@ -23,15 +30,23 @@ func escape(_ carpark: [[Int]]) -> [String] {
     var currentFloor = startingFloor
     while currentFloor < exitFloor {
         let movementInstruction = movementInstruction(floor: carpark[currentFloor], position: position)
+        result.append("\(movementInstruction.direction)\(movementInstruction.steps)")
         
-        result.append(contentsOf: [movementInstruction.instruction, "D1"])
-        position += movementInstruction.steps
-        currentFloor += 1
+        switch movementInstruction.direction {
+        case "R":
+            position += movementInstruction.steps
+        case "L":
+            position -= movementInstruction.steps
+        case "D":
+            currentFloor += movementInstruction.steps
+        default:
+            fatalError("Only R, L and D are valid directions.")
+        }
     }
     
     let movementInstruction = movementInstruction(floor: carpark[currentFloor], position: position)
     
-    result.append(movementInstruction.instruction)
+    result.append("\(movementInstruction.direction)\(movementInstruction.steps)")
 
     return result
 }
@@ -71,6 +86,16 @@ func escape(_ carpark: [[Int]]) -> [String] {
     ]) func escapePathsForSpecificThreeFloorCarParkAndParkingSpot(testcase: (carpark: [[Int]], expectedPath: [String])) {
         #expect(escape(testcase.carpark) == testcase.expectedPath)
     }
+    
+//    @Test("return the expected escape path for three store parking garages where you can go down twice", arguments: [
+//        ([
+//            [0, 1, 2, 0, 0],
+//            [0, 1, 0, 0, 0],
+//            [0, 0, 0, 0, 0],
+//        ], ["L1", "D2", "R3"])
+//    ]) func escapePathsForSpecificThreeFloorCarParkAndParkingSpot_whereYouCanGoDownTwice(testcase: (carpark: [[Int]], expectedPath: [String])) {
+//        #expect(escape(testcase.carpark) == testcase.expectedPath)
+//    }
 }
 
 // Codewars examples
