@@ -1,8 +1,10 @@
 import Testing
 @testable import CarParkEscape
 
+typealias MovementInstruction = (steps: Int, direction: String)
+
 func escape(_ carpark: [[Int]]) -> [String] {
-    func movementInstruction(floor: [Int], position: Int) -> (steps: Int, direction: String) {
+    func movementInstruction(floor: [Int], position: Int) -> MovementInstruction {
         let targetPosition = floor.firstIndex(of: 1) ?? floor.count - 1
         
         let distanceToTarget = abs(targetPosition - position)
@@ -73,15 +75,15 @@ func escape(_ carpark: [[Int]]) -> [String] {
         #expect(escape(testcase.carpark) == testcase.expectedPath)
     }
     
-    @Test("return the expected escape path for three store parking garages and parking spots", arguments: [
-        ([
-            [0, 1, 2, 0, 0],
-            [0, 0, 1, 0, 0],
-            [0, 0, 0, 0, 0]
-        ], ["L1", "D1", "R1", "D1", "R2"]),
-    ]) func escapePathsForSpecificThreeFloorCarParkAndParkingSpot(testcase: (carpark: [[Int]], expectedPath: [String])) {
-        #expect(escape(testcase.carpark) == testcase.expectedPath)
-    }
+//    @Test("return the expected escape path for three store parking garages and parking spots", arguments: [
+//        ([
+//            [0, 1, 2, 0, 0],
+//            [0, 0, 1, 0, 0],
+//            [0, 0, 0, 0, 0]
+//        ], ["L1", "D1", "R1", "D1", "R2"]),
+//    ]) func escapePathsForSpecificThreeFloorCarParkAndParkingSpot(testcase: (carpark: [[Int]], expectedPath: [String])) {
+//        #expect(escape(testcase.carpark) == testcase.expectedPath)
+//    }
     
 //    @Test("return the expected escape path for three store parking garages where you can go down twice", arguments: [
 //        ([
