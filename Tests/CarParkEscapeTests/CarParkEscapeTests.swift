@@ -4,6 +4,10 @@ import Testing
 struct MovementInstruction {
     let steps: Int
     let direction: String
+    
+    var toString: String {
+        "\(direction)\(steps)"
+    }
 }
 
 func escape(_ carpark: [[Int]]) -> [String] {
@@ -31,7 +35,7 @@ func escape(_ carpark: [[Int]]) -> [String] {
     var currentFloor = startingFloor
     while currentFloor < exitFloor {
         let movementInstruction = movementInstruction(floor: carpark[currentFloor], position: position)
-        result.append("\(movementInstruction.direction)\(movementInstruction.steps)")
+        result.append(movementInstruction.toString)
         
         switch movementInstruction.direction {
         case "R":
@@ -47,7 +51,7 @@ func escape(_ carpark: [[Int]]) -> [String] {
     
     let movementInstruction = movementInstruction(floor: carpark[currentFloor], position: position)
     
-    result.append("\(movementInstruction.direction)\(movementInstruction.steps)")
+    result.append(movementInstruction.toString)
 
     return result
 }
