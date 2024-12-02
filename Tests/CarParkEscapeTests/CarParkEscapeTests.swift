@@ -1,7 +1,10 @@
 import Testing
 @testable import CarParkEscape
 
-typealias MovementInstruction = (steps: Int, direction: String)
+struct MovementInstruction {
+    let steps: Int
+    let direction: String
+}
 
 func escape(_ carpark: [[Int]]) -> [String] {
     func movementInstruction(floor: [Int], position: Int) -> MovementInstruction {
@@ -10,9 +13,9 @@ func escape(_ carpark: [[Int]]) -> [String] {
         let distanceToTarget = abs(targetPosition - position)
         
         if distanceToTarget == 0 {
-            return (1, "D")
+            return MovementInstruction(steps: 1, direction: "D")
         } else {
-            return (distanceToTarget, targetPosition > position ? "R" : "L")
+            return MovementInstruction(steps: distanceToTarget, direction: targetPosition > position ? "R" : "L")
         }
     }
     
