@@ -58,3 +58,4 @@ How did this feel?
 - ✅ Three store garages
 - ✅ Refactor going down a stairs to also be an instruction
 - 🚧 Going down more than once
+- ⚠️ Instead of Directions being a string ("D", "L", "R") what if they are in domain language instead?
