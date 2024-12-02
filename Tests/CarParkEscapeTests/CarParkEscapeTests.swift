@@ -8,10 +8,8 @@ struct MovementInstruction {
     var toString: String {
         "\(direction)\(steps)"
     }
-}
-
-func escape(_ carpark: [[Int]]) -> [String] {
-    func movementInstruction(floor: [Int], position: Int) -> MovementInstruction {
+    
+    static func makeMovementInstruction(floor: [Int], position: Int) -> MovementInstruction {
         let targetPosition = floor.firstIndex(of: 1) ?? floor.count - 1
         
         let distanceToTarget = abs(targetPosition - position)
@@ -22,7 +20,9 @@ func escape(_ carpark: [[Int]]) -> [String] {
             return MovementInstruction(steps: distanceToTarget, direction: targetPosition > position ? "R" : "L")
         }
     }
-    
+}
+
+func escape(_ carpark: [[Int]]) -> [String] {
     var result = [MovementInstruction]()
     let startingFloor = carpark.firstIndex { floor in
         floor.contains(2)
@@ -35,7 +35,7 @@ func escape(_ carpark: [[Int]]) -> [String] {
     
     var currentFloor = startingFloor
     while currentFloor != exitFloor || position != exitPosition  {
-        let movementInstruction = movementInstruction(floor: carpark[currentFloor], position: position)
+        let movementInstruction = MovementInstruction.makeMovementInstruction(floor: carpark[currentFloor], position: position)
         result.append(movementInstruction)
         
         switch movementInstruction.direction {
