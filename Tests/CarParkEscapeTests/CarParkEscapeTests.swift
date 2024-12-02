@@ -5,17 +5,13 @@ func escape(_ carpark: [[Int]]) -> [String] {
     func movementInstruction(floor: [Int], position: Int) -> (steps: Int, direction: String) {
         let targetPosition = floor.firstIndex(of: 1) ?? floor.count - 1
         
-        var steps = abs(targetPosition - position)
-        var direction = ""
+        let distanceToTarget = abs(targetPosition - position)
         
-        if steps == 0 {
-            direction = "D"
-            steps = 1
+        if distanceToTarget == 0 {
+            return (1, "D")
         } else {
-            direction = targetPosition > position ? "R" : "L"
+            return (distanceToTarget, targetPosition > position ? "R" : "L")
         }
-                
-        return (steps, direction)
     }
     
     var result = [String]()
