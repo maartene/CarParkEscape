@@ -31,9 +31,10 @@ func escape(_ carpark: [[Int]]) -> [String] {
     var position = carpark[startingFloor].firstIndex(of: 2)!
 
     let exitFloor = carpark.count - 1
+    let exitPosition = carpark[exitFloor].count - 1
     
     var currentFloor = startingFloor
-    while currentFloor < exitFloor {
+    while currentFloor != exitFloor || position != exitPosition  {
         let movementInstruction = movementInstruction(floor: carpark[currentFloor], position: position)
         result.append(movementInstruction)
         
@@ -49,10 +50,6 @@ func escape(_ carpark: [[Int]]) -> [String] {
         }
     }
     
-    let movementInstruction = movementInstruction(floor: carpark[currentFloor], position: position)
-    
-    result.append(movementInstruction)
-
     return result.map { $0.toString }
 }
 
