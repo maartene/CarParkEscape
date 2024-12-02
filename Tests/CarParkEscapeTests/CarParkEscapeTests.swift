@@ -23,8 +23,8 @@ func escape(_ carpark: [[Int]]) -> [String] {
         }
     }
     
-    var result = [String]()
-    let startingFloor = carpark.firstIndex { floor in 
+    var result = [MovementInstruction]()
+    let startingFloor = carpark.firstIndex { floor in
         floor.contains(2)
     }!
 
@@ -35,7 +35,7 @@ func escape(_ carpark: [[Int]]) -> [String] {
     var currentFloor = startingFloor
     while currentFloor < exitFloor {
         let movementInstruction = movementInstruction(floor: carpark[currentFloor], position: position)
-        result.append(movementInstruction.toString)
+        result.append(movementInstruction)
         
         switch movementInstruction.direction {
         case "R":
@@ -51,9 +51,9 @@ func escape(_ carpark: [[Int]]) -> [String] {
     
     let movementInstruction = movementInstruction(floor: carpark[currentFloor], position: position)
     
-    result.append(movementInstruction.toString)
+    result.append(movementInstruction)
 
-    return result
+    return result.map { $0.toString }
 }
 
 @Suite("escape should") struct CarParkEscapeTests {
