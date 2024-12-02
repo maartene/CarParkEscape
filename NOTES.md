@@ -53,5 +53,7 @@ How did this feel?
 - ✅ Need to move left two steps to reach the stairs
 - ✅ Refactored tests to be parameterized
 - ✅ Extract movement instruction from `escape` function
-- ⚠️ Three store garages
+
+## Pomodoro 4: Three store garages
+- ✅ Three store garages
 - ⚠️ Going down more than once

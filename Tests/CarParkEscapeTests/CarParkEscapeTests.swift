@@ -21,7 +21,7 @@ func escape(_ carpark: [[Int]]) -> [String] {
     let exitFloor = carpark.count - 1
     
     var currentFloor = startingFloor
-    if startingFloor < exitFloor {
+    while currentFloor < exitFloor {
         let movementInstruction = movementInstruction(floor: carpark[currentFloor], position: position)
         
         result.append(contentsOf: [movementInstruction.instruction, "D1"])
@@ -62,6 +62,15 @@ func escape(_ carpark: [[Int]]) -> [String] {
         #expect(escape(testcase.carpark) == testcase.expectedPath)
     }
     
+    @Test("return the expected escape path for three store parking garages and parking spots", arguments: [
+        ([
+            [0, 1, 2, 0, 0],
+            [0, 0, 1, 0, 0],
+            [0, 0, 0, 0, 0]
+        ], ["L1", "D1", "R1", "D1", "R2"]),
+    ]) func escapePathsForSpecificThreeFloorCarParkAndParkingSpot(testcase: (carpark: [[Int]], expectedPath: [String])) {
+        #expect(escape(testcase.carpark) == testcase.expectedPath)
+    }
 }
 
 // Codewars examples
