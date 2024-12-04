@@ -1,6 +1,8 @@
 import Testing
 @testable import CarParkEscape
 
+let PARKED_CAR = 2
+
 struct MovementInstruction: Equatable {
     let steps: Int
     let direction: String
@@ -25,10 +27,10 @@ struct MovementInstruction: Equatable {
 func escape(_ carpark: [[Int]]) -> [String] {
     var movementInstructions = [MovementInstruction]()
     let startingFloor = carpark.firstIndex { floor in
-        floor.contains(2)
+        floor.contains(PARKED_CAR)
     }!
 
-    var position = carpark[startingFloor].firstIndex(of: 2)!
+    var position = carpark[startingFloor].firstIndex(of: PARKED_CAR)!
 
     let exitFloor = carpark.count - 1
     let exitPosition = carpark[exitFloor].count - 1
