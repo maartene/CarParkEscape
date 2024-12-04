@@ -23,7 +23,7 @@ struct MovementInstruction: Equatable {
 }
 
 func escape(_ carpark: [[Int]]) -> [String] {
-    var result = [MovementInstruction]()
+    var movementInstructions = [MovementInstruction]()
     let startingFloor = carpark.firstIndex { floor in
         floor.contains(2)
     }!
@@ -42,10 +42,10 @@ func escape(_ carpark: [[Int]]) -> [String] {
             downCount += 1
         } else {
             if downCount > 0 {
-                result.append(MovementInstruction(steps: downCount, direction: "D"))
+                movementInstructions.append(MovementInstruction(steps: downCount, direction: "D"))
                 downCount = 0
             }
-            result.append(movementInstruction)
+            movementInstructions.append(movementInstruction)
         }
         
         switch movementInstruction.direction {
@@ -61,10 +61,10 @@ func escape(_ carpark: [[Int]]) -> [String] {
     }
 
     if downCount > 0 {
-        result.append(MovementInstruction(steps: downCount, direction: "D"))
+        movementInstructions.append(MovementInstruction(steps: downCount, direction: "D"))
     }
     
-    return result.map { $0.toString }
+    return movementInstructions.map { $0.toString }
 }
 
 @Suite("escape should") struct CarParkEscapeTests {
