@@ -59,6 +59,10 @@ func escape(_ carpark: [[Int]]) -> [String] {
             fatalError("Only R, L and D are valid directions.")
         }
     }
+
+    if downCount > 0 {
+        result.append(MovementInstruction(steps: downCount, direction: "D"))
+    }
     
     return result.map { $0.toString }
 }
@@ -111,24 +115,40 @@ func escape(_ carpark: [[Int]]) -> [String] {
 }
 
 // Codewars examples
-// @Test("A simple 2 story carpark returns the correct path") func twoStoryCarParkExample() {
-//     let carPark = [
-//         [1, 0, 0, 0, 2],
-//         [0, 0, 0, 0, 0]
-//     ]
+@Test("A simple 2 story carpark returns the correct path") func twoStoryCarParkExample() {
+    let carPark = [
+        [1, 0, 0, 0, 2],
+        [0, 0, 0, 0, 0]
+    ]
     
-//     let expectedPath = ["L4", "D1", "R4"]
+    let expectedPath = ["L4", "D1", "R4"]
     
-//     #expect(escape(carPark) == expectedPath)
-// }
+    #expect(escape(carPark) == expectedPath)
+}
 
-// @Test("For a specific three story carpark, we return the correct path") func threeStoryCarParkExample() {
-//     let carpark = [[2, 0, 0, 1, 0],
-//                    [0, 0, 0, 1, 0],
-//                    [0, 0, 0, 0, 0]]
+@Test("For a specific three story carpark, we return the correct path") func threeStoryCarParkExample() {
+    let carpark = [[2, 0, 0, 1, 0],
+                   [0, 0, 0, 1, 0],
+                   [0, 0, 0, 0, 0]]
     
-//     let expectedPath = ["R3", "D2", "R1"]
+    let expectedPath = ["R3", "D2", "R1"]
     
-//     #expect(escape(carpark) == expectedPath)
+    #expect(escape(carpark) == expectedPath)
+}
+
+@Test("For this four story carpark, we return the correct path") func fourStoryCarParkExample() {
+    let carpark = [
+        [0, 2, 0, 0, 1],
+        [0, 0, 0, 0, 1],
+        [0, 0, 0, 0, 1],
+        [0, 0, 0, 0, 0]
+    ];
+
+    #expect(escape(carpark) == ["R3", "D3"])
+}
     
-// }
+    // carpark = [[1, 0, 0, 0, 2],
+    //            [0, 0, 0, 0, 1],
+    //            [1, 0, 0, 0, 0],
+    //            [0, 0, 0, 0, 0]];
+    // result = ["L4", "D1", "R4", "D1", "L4", "D1", "R4"];
