@@ -142,13 +142,18 @@ func escape(_ carpark: [[Int]]) -> [String] {
         [0, 0, 0, 0, 1],
         [0, 0, 0, 0, 1],
         [0, 0, 0, 0, 0]
-    ];
+    ]
 
     #expect(escape(carpark) == ["R3", "D3"])
 }
     
-    // carpark = [[1, 0, 0, 0, 2],
-    //            [0, 0, 0, 0, 1],
-    //            [1, 0, 0, 0, 0],
-    //            [0, 0, 0, 0, 0]];
-    // result = ["L4", "D1", "R4", "D1", "L4", "D1", "R4"];
+@Test("For this other four story carpark, we return the correct path") func otherFourStoryCarParkExample() {
+    let carpark = [
+        [1, 0, 0, 0, 2],
+        [0, 0, 0, 0, 1],
+        [1, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0]
+    ]
+
+    #expect(escape(carpark) == ["L4", "D1", "R4", "D1", "L4", "D1", "R4"])
+}
