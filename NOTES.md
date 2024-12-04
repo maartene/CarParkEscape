@@ -57,5 +57,7 @@ How did this feel?
 ## Pomodoro 4: Three store garages
 - ✅ Three store garages
 - ✅ Refactor going down a stairs to also be an instruction
+
+## Pomodoro 5: Three store garages
 - 🚧 Going down more than once
 - ⚠️ Instead of Directions being a string ("D", "L", "R") what if they are in domain language instead?

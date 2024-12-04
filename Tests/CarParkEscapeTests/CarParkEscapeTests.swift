@@ -1,7 +1,7 @@
 import Testing
 @testable import CarParkEscape
 
-struct MovementInstruction {
+struct MovementInstruction: Equatable {
     let steps: Int
     let direction: String
     
@@ -34,9 +34,19 @@ func escape(_ carpark: [[Int]]) -> [String] {
     let exitPosition = carpark[exitFloor].count - 1
     
     var currentFloor = startingFloor
+    var downCount = 0
     while currentFloor != exitFloor || position != exitPosition  {
         let movementInstruction = MovementInstruction.makeMovementInstruction(floor: carpark[currentFloor], position: position)
-        result.append(movementInstruction)
+        
+        if movementInstruction.direction == "D" {
+            downCount += 1
+        } else {
+            if downCount > 0 {
+                result.append(MovementInstruction(steps: downCount, direction: "D"))
+                downCount = 0
+            }
+            result.append(movementInstruction)
+        }
         
         switch movementInstruction.direction {
         case "R":
@@ -51,6 +61,26 @@ func escape(_ carpark: [[Int]]) -> [String] {
     }
     
     return result.map { $0.toString }
+    //return consolidatePath(result).map { $0.toString }
+}
+
+func consolidatePath(_ path: [MovementInstruction]) -> [MovementInstruction] {
+    []
+    // var result = [MovementInstruction]() 
+    // var i = 0
+    // var downCount = 0
+    // while i < path.count {
+    //     if path[i].direction == "D" {
+    //         downCount += 1
+    //     } else if downCount > 0 {
+    //         result.append(MovementInstruction(steps: downCount, direction: "D"))
+    //         downCount = 0
+    //     } else {
+    //         result.append(path[i])
+    //     }
+    //     i += 1
+    // }
+    // return result
 }
 
 @Suite("escape should") struct CarParkEscapeTests {
@@ -79,25 +109,30 @@ func escape(_ carpark: [[Int]]) -> [String] {
         #expect(escape(testcase.carpark) == testcase.expectedPath)
     }
     
-//    @Test("return the expected escape path for three store parking garages and parking spots", arguments: [
-//        ([
-//            [0, 1, 2, 0, 0],
-//            [0, 0, 1, 0, 0],
-//            [0, 0, 0, 0, 0]
-//        ], ["L1", "D1", "R1", "D1", "R2"]),
-//    ]) func escapePathsForSpecificThreeFloorCarParkAndParkingSpot(testcase: (carpark: [[Int]], expectedPath: [String])) {
-//        #expect(escape(testcase.carpark) == testcase.expectedPath)
-//    }
+   @Test("return the expected escape path for three store parking garages and parking spots", arguments: [
+       ([
+           [0, 1, 2, 0, 0],
+           [0, 0, 1, 0, 0],
+           [0, 0, 0, 0, 0]
+       ], ["L1", "D1", "R1", "D1", "R2"]),
+   ]) func escapePathsForSpecificThreeFloorCarParkAndParkingSpot(testcase: (carpark: [[Int]], expectedPath: [String])) {
+       #expect(escape(testcase.carpark) == testcase.expectedPath)
+   }
     
-//    @Test("return the expected escape path for three store parking garages where you can go down twice", arguments: [
-//        ([
-//            [0, 1, 2, 0, 0],
-//            [0, 1, 0, 0, 0],
-//            [0, 0, 0, 0, 0],
-//        ], ["L1", "D2", "R3"])
-//    ]) func escapePathsForSpecificThreeFloorCarParkAndParkingSpot_whereYouCanGoDownTwice(testcase: (carpark: [[Int]], expectedPath: [String])) {
-//        #expect(escape(testcase.carpark) == testcase.expectedPath)
-//    }
+   @Test("return the expected escape path for three store parking garages where you can go down twice", arguments: [
+       ([
+           [0, 1, 2, 0, 0],
+           [0, 1, 0, 0, 0],
+           [0, 0, 0, 0, 0],
+       ], ["L1", "D2", "R3"])
+   ]) func escapePathsForSpecificThreeFloorCarParkAndParkingSpot_whereYouCanGoDownTwice(testcase: (carpark: [[Int]], expectedPath: [String])) {
+       #expect(escape(testcase.carpark) == testcase.expectedPath)
+   }
+
+    // @Test("Consolidate path should remain unchanged if no downward movement is available") func consolidateNoDownwardMovement() { 
+    //     let input = [MovementInstruction(steps: 5, direction: "R")]
+    //     #expect(consolidatePath(input) == input)
+    // }
 }
 
 // Codewars examples
