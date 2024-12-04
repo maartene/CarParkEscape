@@ -60,5 +60,10 @@ How did this feel?
 
 ## Pomodoro 5: Three store garages
 - ✅ Going down more than once
-- ⚠️ Codewars test cases
+- ✅ Codewars test cases
+
+## Pomodoro 6: Refactoring
+- ⚠️ Take out the logic to navigate the carpark (horizontally) out of MovementInstruction
+- ⚠️ Rename 'downCount' to 'lastInstructionCount'
+- ⚠️ Take out remaining  Magic Numbers
 - ⚠️ Instead of Directions being a string ("D", "L", "R") what if they are in domain language instead?
