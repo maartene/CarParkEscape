@@ -1,60 +1,122 @@
 import Testing
 @testable import CarParkEscape
 
-@Test func example() async throws {
-    // Write your test here and use APIs like `#expect(...)` to check expected conditions.
+let PARKED_CAR = 2
+
+struct MovementInstruction: Equatable {
+    let steps: Int
+    let direction: String
+    
+    var toString: String {
+        "\(direction)\(steps)"
+    }
+    
+    static func makeMovementInstruction(floor: [Int], position: Int) -> MovementInstruction {
+        let targetPosition = floor.firstIndex(of: 1) ?? floor.count - 1
+        
+        let distanceToTarget = abs(targetPosition - position)
+        
+        if distanceToTarget == 0 {
+            return MovementInstruction(steps: 1, direction: "D")
+        } else {
+            return MovementInstruction(steps: distanceToTarget, direction: targetPosition > position ? "R" : "L")
+        }
+    }
 }
 
 func escape(_ carpark: [[Int]]) -> [String] {
-    let carPark = Array(carpark.reversed())
-    
-    // on what floor am I?
-    let startingFloor = carPark.first { floor in
-        floor.contains { space in
-            space == 2
-        }
+    var movementInstructions = [MovementInstruction]()
+    let startingFloor = carpark.firstIndex { floor in
+        floor.contains(PARKED_CAR)
     }!
+
+    var position = carpark[startingFloor].firstIndex(of: PARKED_CAR)!
+
+    let exitFloor = carpark.count - 1
+    let exitPosition = carpark[exitFloor].count - 1
     
-    let startingFloorIndex = carPark.firstIndex { floor in
-        floor.contains { space in
-            space == 2
+    var currentFloor = startingFloor
+    var downCount = 0
+    while currentFloor != exitFloor || position != exitPosition  {
+        let movementInstruction = MovementInstruction.makeMovementInstruction(floor: carpark[currentFloor], position: position)
+        
+        if movementInstruction.direction == "D" {
+            downCount += 1
+        } else {
+            if downCount > 0 {
+                movementInstructions.append(MovementInstruction(steps: downCount, direction: "D"))
+                downCount = 0
+            }
+            movementInstructions.append(movementInstruction)
         }
-    }!
-    
-    let startingSpot = startingFloor.firstIndex(of: 2)!
-    
-    var currentFloorIndex = startingFloorIndex
-    var currentSpot = startingSpot
-    var instructions = [String]()
-    
-    while currentFloorIndex != 0 {
-        let currentFloor = carPark[currentFloorIndex]
         
-        // do we need to go left or right?
-        let stairsSpot = currentFloor.firstIndex(of: 1)!
-        
-        let isLeft = stairsSpot < startingSpot
-        
-        // how many steps
-        let steps = abs(stairsSpot - startingSpot)
-        
-        let instruction = "\(isLeft ? "L" : "R")" + "\(steps)"
-        
-        instructions.append(instruction)
-        currentFloorIndex -= 1
-        currentSpot = stairsSpot
-        instructions.append("D1")
+        switch movementInstruction.direction {
+        case "R":
+            position += movementInstruction.steps
+        case "L":
+            position -= movementInstruction.steps
+        case "D":
+            currentFloor += movementInstruction.steps
+        default:
+            fatalError("Only R, L and D are valid directions.")
+        }
+    }
+
+    if downCount > 0 {
+        movementInstructions.append(MovementInstruction(steps: downCount, direction: "D"))
     }
     
-    // process the bottom floor
-    let exitSpot = carPark[0].count - 1
-    let steps = abs(currentSpot - exitSpot)
-    instructions.append("R\(steps)")
-    
-    return instructions
-    
+    return movementInstructions.map { $0.toString }
 }
 
+@Suite("escape should") struct CarParkEscapeTests {
+    @Test("return the expected escape path for a specific single floor parking garage and parking spot", arguments: [
+        ([[2, 0]], ["R1"]),
+        ([[2, 0, 0, 0, 0]], ["R4"]),
+        ([[0, 0, 2, 0, 0]], ["R2"])
+    ]) func escapePathsForSpecificSingleFloorCarParkAndParkingSpot(testcase: (carpark: [[Int]], expectedPath: [String])) {
+        #expect(escape(testcase.carpark) == testcase.expectedPath)
+    }
+    
+    @Test("return the expected escape path for two stoor parking garages and parking spots", arguments: [
+        ([
+            [0, 1, 2, 0, 0],
+            [0, 0, 0, 0, 0]
+        ], ["L1", "D1", "R3"]),
+        ([
+            [0, 1, 0, 2, 0],
+            [0, 0, 0, 0, 0]
+        ], ["L2", "D1", "R3"]),
+        ([
+            [2, 0, 1, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0]
+        ], ["R2", "D1", "R3"])
+    ]) func escapePathsForSpecificTwoFloorCarParkAndParkingSpot(testcase: (carpark: [[Int]], expectedPath: [String])) {
+        #expect(escape(testcase.carpark) == testcase.expectedPath)
+    }
+    
+   @Test("return the expected escape path for three store parking garages and parking spots", arguments: [
+       ([
+           [0, 1, 2, 0, 0],
+           [0, 0, 1, 0, 0],
+           [0, 0, 0, 0, 0]
+       ], ["L1", "D1", "R1", "D1", "R2"]),
+   ]) func escapePathsForSpecificThreeFloorCarParkAndParkingSpot(testcase: (carpark: [[Int]], expectedPath: [String])) {
+       #expect(escape(testcase.carpark) == testcase.expectedPath)
+   }
+    
+   @Test("return the expected escape path for three store parking garages where you can go down twice", arguments: [
+       ([
+           [0, 1, 2, 0, 0],
+           [0, 1, 0, 0, 0],
+           [0, 0, 0, 0, 0],
+       ], ["L1", "D2", "R3"])
+   ]) func escapePathsForSpecificThreeFloorCarParkAndParkingSpot_whereYouCanGoDownTwice(testcase: (carpark: [[Int]], expectedPath: [String])) {
+       #expect(escape(testcase.carpark) == testcase.expectedPath)
+   }
+}
+
+// Codewars examples
 @Test("A simple 2 story carpark returns the correct path") func twoStoryCarParkExample() {
     let carPark = [
         [1, 0, 0, 0, 2],
@@ -74,5 +136,26 @@ func escape(_ carpark: [[Int]]) -> [String] {
     let expectedPath = ["R3", "D2", "R1"]
     
     #expect(escape(carpark) == expectedPath)
+}
+
+@Test("For this four story carpark, we return the correct path") func fourStoryCarParkExample() {
+    let carpark = [
+        [0, 2, 0, 0, 1],
+        [0, 0, 0, 0, 1],
+        [0, 0, 0, 0, 1],
+        [0, 0, 0, 0, 0]
+    ]
+
+    #expect(escape(carpark) == ["R3", "D3"])
+}
     
+@Test("For this other four story carpark, we return the correct path") func otherFourStoryCarParkExample() {
+    let carpark = [
+        [1, 0, 0, 0, 2],
+        [0, 0, 0, 0, 1],
+        [1, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0]
+    ]
+
+    #expect(escape(carpark) == ["L4", "D1", "R4", "D1", "L4", "D1", "R4"])
 }

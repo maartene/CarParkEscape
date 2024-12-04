@@ -41,3 +41,29 @@ How did this feel?
 - Way of programming that feels: I don't want to make this my carreer
 - Mental model in your head needs to be way too big
 - Lack of a _shared_ mental model between driver and navigator
+
+## Pomodoro 2: And now we do it the right way
+- ✅ park right next to the exit
+- ✅ park on the same floor (all the way to the left), a bit away from the exit
+- ✅ park on the same floor (in the middle), a bit away from the exit
+- ✅ park on a second floor right next to the stairs
+- Fixed ❌ in test where parking on second floor, right next to stairs should return R3.
+
+## Pomodoro 3: Continue with going left
+- ✅ Need to move left two steps to reach the stairs
+- ✅ Refactored tests to be parameterized
+- ✅ Extract movement instruction from `escape` function
+
+## Pomodoro 4: Three store garages
+- ✅ Three store garages
+- ✅ Refactor going down a stairs to also be an instruction
+
+## Pomodoro 5: Three store garages
+- ✅ Going down more than once
+- ✅ Codewars test cases
+
+## Pomodoro 6: Refactoring
+- ⚠️ Take out the logic to navigate the carpark (horizontally) out of MovementInstruction
+- ⚠️ Rename 'downCount' to 'lastInstructionCount'
+- ⚠️ Take out remaining  Magic Numbers
+- ⚠️ Instead of Directions being a string ("D", "L", "R") what if they are in domain language instead?
