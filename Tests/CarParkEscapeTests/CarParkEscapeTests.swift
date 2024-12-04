@@ -1,73 +1,43 @@
 import Testing
 @testable import CarParkEscape
 
-let PARKED_CAR = 2
-
-struct MovementInstruction: Equatable {
-    let steps: Int
-    let direction: String
-    
-    var toString: String {
-        "\(direction)\(steps)"
-    }
-    
-    static func makeMovementInstruction(floor: [Int], position: Int) -> MovementInstruction {
-        let targetPosition = floor.firstIndex(of: 1) ?? floor.count - 1
-        
-        let distanceToTarget = abs(targetPosition - position)
-        
-        if distanceToTarget == 0 {
-            return MovementInstruction(steps: 1, direction: "D")
-        } else {
-            return MovementInstruction(steps: distanceToTarget, direction: targetPosition > position ? "R" : "L")
-        }
-    }
-}
-
+// This is what ChatNS proposed
 func escape(_ carpark: [[Int]]) -> [String] {
-    var movementInstructions = [MovementInstruction]()
-    let startingFloor = carpark.firstIndex { floor in
-        floor.contains(PARKED_CAR)
-    }!
-
-    var position = carpark[startingFloor].firstIndex(of: PARKED_CAR)!
-
-    let exitFloor = carpark.count - 1
-    let exitPosition = carpark[exitFloor].count - 1
+    var path: [String] = []
+    var currentRow = 0
     
-    var currentFloor = startingFloor
-    var downCount = 0
-    while currentFloor != exitFloor || position != exitPosition  {
-        let movementInstruction = MovementInstruction.makeMovementInstruction(floor: carpark[currentFloor], position: position)
-        
-        if movementInstruction.direction == "D" {
-            downCount += 1
-        } else {
-            if downCount > 0 {
-                movementInstructions.append(MovementInstruction(steps: downCount, direction: "D"))
-                downCount = 0
+    // Find the starting column
+    var currentColumn = carpark[0].firstIndex(of: 2) ?? -1
+    
+    for row in carpark.indices {
+        if carpark[row][currentColumn] == 1 {
+            // Move left or right to circumvent obstacles
+            let targetColumn = carpark[row].firstIndex(of: 0) ?? currentColumn
+            if targetColumn < currentColumn {
+                path.append("L\(currentColumn - targetColumn)")
+            } else if targetColumn > currentColumn {
+                path.append("R\(targetColumn - currentColumn)")
             }
-            movementInstructions.append(movementInstruction)
+            currentColumn = targetColumn
         }
         
-        switch movementInstruction.direction {
-        case "R":
-            position += movementInstruction.steps
-        case "L":
-            position -= movementInstruction.steps
-        case "D":
-            currentFloor += movementInstruction.steps
-        default:
-            fatalError("Only R, L and D are valid directions.")
+        // If not on the last floor, add down movement
+        if row < carpark.count - 1 {
+            path.append("D1")
+            currentRow += 1
         }
     }
-
-    if downCount > 0 {
-        movementInstructions.append(MovementInstruction(steps: downCount, direction: "D"))
+    
+    // Handle final horizontal move
+    if currentColumn < carpark.last!.count - 1 {
+        path.append("R\(carpark.last!.count - currentColumn - 1)")
+    } else if currentColumn > 0 {
+        path.append("L\(currentColumn)")
     }
     
-    return movementInstructions.map { $0.toString }
+    return path
 }
+
 
 @Suite("escape should") struct CarParkEscapeTests {
     @Test("return the expected escape path for a specific single floor parking garage and parking spot", arguments: [
